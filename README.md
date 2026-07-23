@@ -1,5 +1,8 @@
 # RouteLog — ELD Trip Planner
 
+**Live app:** https://eld-trip-planner-eight-beige.vercel.app
+**Live API:** https://eld-trip-planner-api-gamma.vercel.app
+
 A full-stack app that plans FMCSA-compliant truck trips. Enter your current
 location, pickup, drop-off and current 70-hr cycle usage — it routes the trip,
 schedules every legally required rest, break and fuel stop, and **draws the
@@ -80,9 +83,17 @@ The frontend reads `VITE_API_BASE` (defaults to `http://localhost:8000`).
 
 ## Deployment
 
-- **API — Render:** `render.yaml` blueprint included (gunicorn, no database).
-- **UI — Vercel:** import the repo, set root directory to `frontend/`,
-  framework Vite, and add env var `VITE_API_BASE=<your Render URL>`.
+Both halves deploy to **Vercel** (the API runs as a Python serverless
+function — `backend/vercel.json`; being stateless, Django fits serverless
+perfectly and avoids free-tier spin-down delays):
+
+```bash
+cd backend  && vercel deploy --prod   # API
+cd frontend && vercel deploy --prod   # UI (set VITE_API_BASE env var first)
+```
+
+A `render.yaml` blueprint is also included if you prefer Render + gunicorn
+for the API.
 
 ## API
 

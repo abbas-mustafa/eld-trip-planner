@@ -1,5 +1,7 @@
+// strip stray whitespace/BOM (can sneak in via CLI-set env vars) + trailing /
 const API_BASE =
-  import.meta.env.VITE_API_BASE?.replace(/\/$/, '') || 'http://localhost:8000'
+  import.meta.env.VITE_API_BASE?.replace(/^[\s﻿]+|[\s﻿]+$/g, '')
+    .replace(/\/$/, '') || 'http://localhost:8000'
 
 export async function planTrip(payload) {
   const resp = await fetch(`${API_BASE}/api/plan-trip/`, {
