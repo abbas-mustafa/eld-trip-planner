@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@theme {
+  --font-sans: 'Fira Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, monospace;
+
+  --color-navy-950: #0b1220;
+  --color-navy-900: #101b33;
+  --color-navy-800: #16244a;
+  --color-navy-700: #1e3a8a;
+
+  --color-primary-600: #1e40af;
+  --color-primary-500: #2b52c9;
+  --color-primary-400: #3b82f6;
+
+  --color-accent-600: #d97706;
+  --color-accent-500: #f59e0b;
+  --color-accent-100: #fef3c7;
+
+  --color-surface: #f6f8fc;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: #101b33;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Leaflet overrides to match the app's card look */
+.leaflet-container {
+  font-family: var(--font-sans);
+  border-radius: 0.75rem;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 0.6rem;
+  box-shadow: 0 8px 24px rgba(11, 18, 32, 0.18);
+}
+.leaflet-popup-content {
+  margin: 10px 14px;
+  line-height: 1.45;
+}
+
+.stop-marker {
+  background: transparent;
+  border: none;
+}
+
+/* thin, tidy scrollbars for internal panels */
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #c3cddd;
+  border-radius: 3px;
+}
