@@ -28,6 +28,7 @@ export default function LocationInput({
     const q = value.text.trim()
     if (q.length < 3 || value.coords) {
       setSuggestions([])
+      setOpen(false)
       return
     }
     const t = setTimeout(async () => {

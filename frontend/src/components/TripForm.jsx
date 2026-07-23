@@ -9,11 +9,64 @@ import {
   RouteIcon,
 } from './icons'
 
+// Known coordinates are included so picking an example doesn't trigger the
+// autocomplete lookup and geocodes instantly & exactly.
+const CITIES = {
+  chicago: { text: 'Chicago, IL', coords: '41.8781,-87.6298' },
+  milwaukee: { text: 'Milwaukee, WI', coords: '43.0389,-87.9065' },
+  madison: { text: 'Madison, WI', coords: '43.0722,-89.4008' },
+  indianapolis: { text: 'Indianapolis, IN', coords: '39.7684,-86.1581' },
+  dallas: { text: 'Dallas, TX', coords: '32.7767,-96.797' },
+  newyork: { text: 'New York, NY', coords: '40.7128,-74.006' },
+  philadelphia: { text: 'Philadelphia, PA', coords: '39.9526,-75.1652' },
+  losangeles: { text: 'Los Angeles, CA', coords: '34.0522,-118.2437' },
+}
+
+const EXAMPLES = [
+  {
+    name: 'Short haul',
+    current: CITIES.chicago,
+    pickup: CITIES.milwaukee,
+    dropoff: CITIES.madison,
+    cycle: 10,
+  },
+  {
+    name: 'Multi-day',
+    current: CITIES.chicago,
+    pickup: CITIES.indianapolis,
+    dropoff: CITIES.dallas,
+    cycle: 25,
+  },
+  {
+    name: 'Cross-country',
+    current: CITIES.newyork,
+    pickup: CITIES.philadelphia,
+    dropoff: CITIES.losangeles,
+    cycle: 0,
+  },
+  {
+    name: '34-hr restart',
+    current: CITIES.chicago,
+    pickup: CITIES.indianapolis,
+    dropoff: CITIES.losangeles,
+    cycle: 60,
+  },
+]
+
 export default function TripForm({ form, setForm, onSubmit, loading }) {
   const setLocation = (key) => (val) =>
     setForm((f) => ({ ...f, [key]: val }))
 
   const cycle = Number(form.cycleUsed) || 0
+
+  const fillExample = (ex) =>
+    setForm((f) => ({
+      ...f,
+      current: { ...ex.current },
+      pickup: { ...ex.pickup },
+      dropoff: { ...ex.dropoff },
+      cycleUsed: ex.cycle,
+    }))
 
   return (
     <form
@@ -23,6 +76,23 @@ export default function TripForm({ form, setForm, onSubmit, loading }) {
       }}
       className="flex flex-col gap-4"
     >
+      <div>
+        <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          Try an example
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {EXAMPLES.map((ex) => (
+            <button
+              key={ex.name}
+              type="button"
+              onClick={() => fillExample(ex)}
+              className="cursor-pointer rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[12px] font-medium text-slate-600 transition-colors hover:border-primary-400 hover:bg-primary-600/5 hover:text-primary-600"
+            >
+              {ex.name}
+            </button>
+          ))}
+        </div>
+      </div>
       <LocationInput
         id="current"
         label="Current location"
